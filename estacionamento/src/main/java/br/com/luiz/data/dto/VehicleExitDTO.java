@@ -1,33 +1,22 @@
 package br.com.luiz.data.dto;
 
-import br.com.luiz.model.VehicleType;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class VehicleDTO implements Serializable {
-
-    private static final Long serialVersionUID = 1L;
-
-    private Long id;
+public class VehicleExitDTO {
     private String licensePlate;
-    private String model;
-    private String brand;
-    private String color;
-    private VehicleType type;
     private LocalDateTime entranceDate;
     private LocalDateTime exitDate;
     private long parkingDuration;
     private double amountToPay;
 
-    public VehicleDTO() {}
+    public VehicleExitDTO() {}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public VehicleExitDTO(String licensePlate, LocalDateTime entranceDate, LocalDateTime exitDate, long parkingDuration, double amountToPay) {
+        this.licensePlate = licensePlate;
+        this.entranceDate = entranceDate;
+        this.exitDate = exitDate;
+        this.parkingDuration = parkingDuration;
+        this.amountToPay = amountToPay;
     }
 
     public String getLicensePlate() {
@@ -36,38 +25,6 @@ public class VehicleDTO implements Serializable {
 
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public VehicleType getType() {
-        return type;
-    }
-
-    public void setType(VehicleType type) {
-        this.type = type;
     }
 
     public LocalDateTime getEntranceDate() {

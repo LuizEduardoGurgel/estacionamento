@@ -1,0 +1,1 @@
+adicionar tratamento de erro para duplicacao de placa

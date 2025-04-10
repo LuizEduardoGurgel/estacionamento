@@ -3,7 +3,7 @@ spring:
     name: estacionamento
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/estacionamento_luiz?useTimezone=true&serverTimezona=UTC
+    url: jdbc:mysql://localhost:3306/estacionamento_luiz?useTimezone=true&serverTimezone=UTC
     username: root
     password: admin123
   jpa:

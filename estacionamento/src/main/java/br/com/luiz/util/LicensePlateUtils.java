@@ -5,11 +5,17 @@ public class LicensePlateUtils {
     private static final String BRAZILIAN_PLATE_REGEX = "^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$";
 
     public static boolean isValidLicensePlate(String licensePlate) {
-        if(licensePlate == null || licensePlate.isEmpty()) return false;
+        if (licensePlate == null || licensePlate.isEmpty()) return false;
 
         String normalized = licensePlate.replaceAll("-", "")
-                                         .replaceAll("\\s+", "")
-                                         .toUpperCase();
+                .replaceAll("\\s+", "")
+                .toUpperCase();
         return normalized.matches(BRAZILIAN_PLATE_REGEX);
+    }
+
+    public static String normalizeLicensePlate(String licensePlate) {
+        return licensePlate.replaceAll("-", "")
+                .replaceAll("\\s+", "")
+                .toUpperCase();
     }
 }

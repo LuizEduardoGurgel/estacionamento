@@ -10,6 +10,8 @@ import java.util.Objects;
 @Table(name = "vehicle")
 public class Vehicle implements Serializable {
 
+    private static final Long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +34,7 @@ public class Vehicle implements Serializable {
     @Column(name = "entrance_date", nullable = false)
     private LocalDateTime entranceDate;
 
-    @Column(name = "exit_date", nullable = false)
+    @Column(name = "exit_date", nullable = true)
     private LocalDateTime exitDate;
 
 
