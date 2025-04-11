@@ -2,7 +2,9 @@ package br.com.luiz.exception.handler;
 
 
 import br.com.luiz.exception.BusinessException;
+import br.com.luiz.exception.DuplicateLicensePlateException;
 import br.com.luiz.exception.ExceptionResponse;
+import br.com.luiz.exception.IllegalArgumentException;
 import br.com.luiz.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,20 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(BusinessException.class)
     public final ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateLicensePlateException.class)
+    public final ResponseEntity<ExceptionResponse> handleDuplicateLicensePlateException(DuplicateLicensePlateException ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public final ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

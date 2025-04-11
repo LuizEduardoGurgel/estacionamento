@@ -4,7 +4,9 @@ import br.com.luiz.controllers.VehicleController;
 import br.com.luiz.data.dto.VehicleDTO;
 import br.com.luiz.data.dto.VehicleExitDTO;
 import br.com.luiz.exception.BusinessException;
+import br.com.luiz.exception.DuplicateLicensePlateException;
 import br.com.luiz.exception.ResourceNotFoundException;
+import br.com.luiz.exception.IllegalArgumentException;
 import br.com.luiz.model.Vehicle;
 import br.com.luiz.repository.VehicleRepository;
 import org.slf4j.Logger;
@@ -42,7 +44,7 @@ public class VehicleServices {
     public VehicleDTO findByLicensePlate(String licensePlate) {
 
         if(!isValidLicensePlate(licensePlate)){
-            throw new BusinessException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
+            throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
         }
 
         logger.info("Finding the Car with license plate: " + licensePlate);
@@ -55,7 +57,11 @@ public class VehicleServices {
     public VehicleDTO create(VehicleDTO vehicle) {
 
         if(!isValidLicensePlate(vehicle.getLicensePlate())){
-            throw new BusinessException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
+            throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
+        }
+
+        if(existsByLicensePlate(vehicle.getLicensePlate())){
+            throw new DuplicateLicensePlateException("This license plate already exists.");
         }
 
         vehicle.setLicensePlate(normalizeLicensePlate(vehicle.getLicensePlate()));
@@ -71,8 +77,9 @@ public class VehicleServices {
     public VehicleDTO update(VehicleDTO vehicle) {
 
         if(!isValidLicensePlate(vehicle.getLicensePlate())){
-            throw new BusinessException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
+            throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
         }
+
         Vehicle entity = repository.findByLicensePlate(vehicle.getLicensePlate())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this license plate"));
 
@@ -87,7 +94,7 @@ public class VehicleServices {
     public VehicleExitDTO delete (String licensePlate){
 
         if(!isValidLicensePlate(licensePlate)){
-            throw new BusinessException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
+            throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
         }
 
         logger.info("Deleting the Vehicle with license plate: " + licensePlate);
@@ -110,5 +117,10 @@ public class VehicleServices {
                 duration,
                 amount
         );
+    }
+
+    public boolean existsByLicensePlate(String licensePlate) {
+        String normalized = normalizeLicensePlate(licensePlate);
+        return repository.existsByLicensePlate(normalized);
     }
 }
