@@ -18,7 +18,12 @@ public class VehicleController {
     private VehicleServices service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VehicleDTO> findAll() { return service.findAll(); }
+    public List<VehicleDTO> findAll(@RequestParam(value = "licensePlate", required = false) String licensePlate) {
+        if(licensePlate != null && !licensePlate.isBlank()) {
+            return service.findAllByFilter(licensePlate);
+        }
+        return service.findAll();
+    }
 
     @GetMapping(value = "/{licensePlate}",
             produces = MediaType.APPLICATION_JSON_VALUE)

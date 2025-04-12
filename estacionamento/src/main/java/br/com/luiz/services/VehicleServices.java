@@ -54,6 +54,15 @@ public class VehicleServices {
         return parseObject(entity, VehicleDTO.class);
     }
 
+    public List<VehicleDTO> findAllByFilter(String filter) {
+
+        String normalizedFilter = normalizeLicensePlate(filter);
+
+        logger.info("Finding All the Vehicles with the filter: " + filter);
+
+        return parseListObjects(repository.findAllByLicensePlateContaining(normalizedFilter), VehicleDTO.class);
+    }
+
     public VehicleDTO create(VehicleDTO vehicle) {
 
         if(!isValidLicensePlate(vehicle.getLicensePlate())){
