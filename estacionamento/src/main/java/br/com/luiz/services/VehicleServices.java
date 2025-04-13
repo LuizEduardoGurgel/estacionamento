@@ -43,13 +43,15 @@ public class VehicleServices {
 
     public VehicleDTO findByLicensePlate(String licensePlate) {
 
-        if(!isValidLicensePlate(licensePlate)){
+        String normalizedLicensePlate = normalizeLicensePlate(licensePlate);
+
+        if(!isValidLicensePlate(normalizedLicensePlate)){
             throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
         }
 
-        logger.info("Finding the Car with license plate: " + licensePlate);
+        logger.info("Finding the Car with license plate: " + normalizedLicensePlate);
 
-        var entity = repository.findByLicensePlate(licensePlate)
+        var entity = repository.findByLicensePlate(normalizedLicensePlate)
              .orElseThrow(() -> new ResourceNotFoundException("No records found for this license plate"));
         return parseObject(entity, VehicleDTO.class);
     }
@@ -83,13 +85,13 @@ public class VehicleServices {
         return parseObject(repository.save(entity), VehicleDTO.class);
     }
 
-    public VehicleDTO update(VehicleDTO vehicle) {
+    public VehicleDTO update(String licensePlate, VehicleDTO vehicle) {
 
-        if(!isValidLicensePlate(vehicle.getLicensePlate())){
+        if(!isValidLicensePlate(licensePlate)){
             throw new IllegalArgumentException("Invalid license plate format. Expected ABC1234 or ABC1B34 or ABC-1234.");
         }
 
-        Vehicle entity = repository.findByLicensePlate(vehicle.getLicensePlate())
+        Vehicle entity = repository.findByLicensePlate(licensePlate)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this license plate"));
 
         entity.setBrand(vehicle.getBrand());

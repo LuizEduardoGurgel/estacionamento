@@ -38,11 +38,12 @@ public class VehicleController {
     public VehicleDTO create(@RequestBody VehicleDTO vehicle) { return service.create(vehicle); }
 
     @PutMapping(
+            value = "/{licensePlate}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
 
-    public VehicleDTO update(@RequestBody VehicleDTO vehicle) { return service.update(vehicle); }
+    public VehicleDTO update(@PathVariable("licensePlate") String licensePlate, @RequestBody VehicleDTO vehicle) { return service.update(licensePlate, vehicle); }
 
     @DeleteMapping(value = "/{licensePlate}")
     public ResponseEntity<VehicleExitDTO> delete(@PathVariable("licensePlate") String licensePlate) {

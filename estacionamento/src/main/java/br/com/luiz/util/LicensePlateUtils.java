@@ -6,16 +6,12 @@ public class LicensePlateUtils {
 
     public static boolean isValidLicensePlate(String licensePlate) {
         if (licensePlate == null || licensePlate.isEmpty()) return false;
-
-        String normalized = licensePlate.replaceAll("-", "")
-                .replaceAll("\\s+", "")
-                .toUpperCase();
-        return normalized.matches(BRAZILIAN_PLATE_REGEX);
+        return licensePlate.matches(BRAZILIAN_PLATE_REGEX);
     }
 
     public static String normalizeLicensePlate(String licensePlate) {
         return licensePlate.replaceAll("-", "")
-                .replaceAll("\\s+", "")
+                .replaceAll("\\s*", "")
                 .toUpperCase();
     }
 }
