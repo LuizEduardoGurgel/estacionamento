@@ -1,10 +1,8 @@
 package br.com.luiz.services;
 
-import br.com.luiz.controllers.VehicleController;
 import br.com.luiz.data.dto.VehicleDTO;
 import br.com.luiz.data.dto.VehicleExitDTO;
-import br.com.luiz.exception.BusinessException;
-import br.com.luiz.exception.DuplicateLicensePlateException;
+import br.com.luiz.exception.DuplicatedLicensePlateException;
 import br.com.luiz.exception.ResourceNotFoundException;
 import br.com.luiz.exception.IllegalArgumentException;
 import br.com.luiz.model.Vehicle;
@@ -72,7 +70,7 @@ public class VehicleServices {
         }
 
         if(existsByLicensePlate(vehicle.getLicensePlate())){
-            throw new DuplicateLicensePlateException("This license plate already exists.");
+            throw new DuplicatedLicensePlateException("This license plate already exists.");
         }
 
         vehicle.setLicensePlate(normalizeLicensePlate(vehicle.getLicensePlate()));
